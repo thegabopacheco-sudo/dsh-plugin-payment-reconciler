@@ -1,0 +1,16 @@
+# dsh-plugin-payment-reconciler — capa bundle de DSH.
+# Inserta una fila @deepseek-ai/dsh-mcp-client que lanza el servidor como "payments".
+# Tools resultantes: mcp__payments__* (ver README).
+- insert:
+    - id: mcp-payment-reconciler
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: payments
+        transport: stdio
+        command: !!js process.execPath
+        args:
+          - !!js "(process.env.DSH_HOME && process.env.DSH_HOME.trim() !== '' ? process.env.DSH_HOME : (process.env.USERPROFILE || process.env.HOME || '') + '/.dsh') + '/plugins/payment-reconciler/server.mjs'"
+        env:
+          ELECTRON_RUN_AS_NODE: '1'
+        failOnStartupError: false
+        toolCallTimeoutMs: 60000
